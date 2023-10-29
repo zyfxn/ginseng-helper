@@ -35,20 +35,21 @@ class CellType:
 class RootType:
     UNKNOWN = -1
     THICK = 0
-    THIN = 1
-    BOTH = 2
+    BOTH = 1
+    THIN = 2
+    TAIL = 3
 
 
 class Root:
+    id: int = -1
     type: int = RootType.UNKNOWN
     enter: int = Direct.UNKNOWN
     leave: int = Direct.UNKNOWN
-    thicker: bool = None  # enter is thicker than leave
+    isThicker: bool = None  # enter is thicker than leave
 
 
 class Cell:
     root: Root = Root()
-    step: int = 0
 
     def __init__(self, cell_type: int, x: int, y: int):
         self.type = cell_type
@@ -68,8 +69,9 @@ class Cell:
             raise Exception('move error')
 
 
-def cell_extend(src: Cell, cell_type: int, to: int) -> Cell:
-    res = Cell(cell_type, src.x, src.y)
+def cell_extend(src: Cell, to: int) -> Cell:
+    res = Cell(CellType.ROOT, src.x, src.y)
     res.move(to)
     res.root.enter = opposite(to)
+    res.root.id = src.root.id
     return res

@@ -22,12 +22,12 @@ class Graph:
         self.graph.pop(key(cell.x, cell.y))
 
 
-CurrentGraph = Graph()
+BaseGraph = Graph()
 AssumedGraph = Graph()
 
 
 def get_graph_cell(x: int, y: int) -> Cell | None:
     obj = AssumedGraph.get(x, y)
     if obj is None:
-        obj = CurrentGraph.get(x, y)
+        obj = BaseGraph.get(x, y)
     return obj
